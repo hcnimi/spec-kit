@@ -35,7 +35,7 @@ git diff main...HEAD
 **Constitution Compliance**:
 - [ ] **Library-First**: Is feature implemented as reusable library?
 - [ ] **CLI Interface**: Does library expose CLI with --help, --version, --format?
-- [ ] **Test-First**: Are tests written before implementation (check git history)?
+- [ ] **Testing**: Are appropriate tests present for the implementation?
 - [ ] **Integration Testing**: Are contract and integration tests present?
 - [ ] **Observability**: Is structured logging included?
 - [ ] **Simplicity**: No unnecessary abstractions or patterns?
@@ -90,12 +90,10 @@ git diff main...HEAD
 
 Check if implementation follows context engineering principles:
 
-**ULTRATHINK**: Before evaluating patterns, deeply analyze:
-- Why were these specific patterns chosen over alternatives?
-- What are the long-term implications of pattern choices?
-- Are there hidden coupling issues between components?
-- How will these patterns affect future feature development?
-- What failure modes are introduced by the chosen architecture?
+Consider:
+- Why were these specific patterns chosen?
+- Are there hidden coupling issues?
+- How will patterns affect future development?
 
 **Pattern Consistency**:
 - [ ] Similar features implemented with consistent patterns

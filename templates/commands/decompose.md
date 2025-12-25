@@ -1,5 +1,5 @@
 ---
-description: Decompose parent feature spec into atomic capabilities (~1000 LOC total each, 800-1200 acceptable)
+description: Decompose parent feature spec into atomic capabilities for manageable PRs
 scripts:
   sh: scripts/bash/decompose-feature.sh --json
   ps: scripts/powershell/decompose-feature.ps1 -Json
@@ -28,12 +28,11 @@ Given a parent feature specification, decompose it into independently-implementa
 
 ### Phase 1: Analyze & Group Requirements
 
-**Think hard about decomposition strategy:**
+**Consider decomposition strategy:**
 - What are the natural bounded contexts in this feature?
 - How can requirements be grouped to maximize independence?
 - Which capabilities are foundational (enable others)?
 - What dependencies exist between capability groups?
-- How can we minimize coupling while maximizing cohesion?
 
 **Grouping Strategies:**
 1. **By Entity Lifecycle**: User CRUD, Project CRUD, Report CRUD
@@ -57,17 +56,14 @@ Given a parent feature specification, decompose it into independently-implementa
 | API/CLI | 50-100 | 50-100 | Endpoints/commands + contract tests |
 | Integration | N/A | 50-100 | E2E scenarios |
 
-**Target totals per capability:**
-- Implementation: 200-400 LOC
-- Tests: 200-400 LOC
-- **Total: 400-800 LOC**
+**Target per capability:**
+Aim for capabilities that can be reviewed in a single PR (typically 500-1500 LOC total including tests).
 
-**Validation rules:**
-- **<400 LOC total**: Too small, consider merging with related capability
-- **400-600 LOC**: ✓ Ideal range (200-300 impl + 200-300 tests)
-- **600-800 LOC**: ✓ Acceptable, well-scoped (300-400 impl + 300-400 tests)
-- **800-1000 LOC**: ✓ Acceptable with justification (400-500 impl + 400-500 tests)
-- **>1000 LOC OR impl >500 OR tests >500**: ⚠️ Requires detailed justification OR further decomposition
+**Sizing guidance:**
+- Very small scope → Consider merging with related capability
+- Medium scope (500-1000 LOC) → Ideal for atomic PRs
+- Larger scope (1000-1500 LOC) → Acceptable if cohesive
+- Very large scope → Consider further decomposition
 
 ### Phase 3: Order Capabilities
 

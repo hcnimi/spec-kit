@@ -19,22 +19,22 @@ Ask the user to clarify (if not obvious from description):
    - New feature → Continue to complexity assessment
    - Modification → Consider lightweight or quick mode
 
-2. **Estimated total LOC (implementation + tests)?**
-   - <200 LOC → **QUICK mode** (minimal spec, proposal + tasks only)
-   - 200-800 LOC → **LIGHTWEIGHT mode** (compact spec, essential plan + tasks)
-   - 800-1000 LOC → **FULL mode** (comprehensive spec, detailed plan - current default)
-   - >1000 LOC → **FULL mode** + recommend `/decompose` after spec complete
+2. **Estimated scope?**
+   - Small change → **QUICK mode** (minimal spec, proposal + tasks only)
+   - Medium feature → **LIGHTWEIGHT mode** (compact spec, essential plan + tasks)
+   - Large feature → **FULL mode** (comprehensive spec, detailed plan - default)
+   - Very large → **FULL mode** + recommend `/decompose` after spec complete
 
 ### Mode Behaviors
 
-**QUICK Mode (<200 LOC total):**
+**QUICK Mode (small changes):**
 - Skip: research phase, product-vision check, system-architecture check
 - Use: `templates/spec-template-quick.md`
 - Generate: Minimal spec (purpose, requirements, acceptance criteria only)
 - Use case: Bug fixes, small tweaks, config changes
 - Next step: `/tasks` directly (no `/plan` needed)
 
-**LIGHTWEIGHT Mode (200-800 LOC total):**
+**LIGHTWEIGHT Mode (medium features):**
 - Skip: research phase (codebase + external)
 - Simplify: product-vision and system-architecture checks (reference only, don't analyze deeply)
 - Use: `templates/spec-template-lightweight.md`
@@ -42,7 +42,7 @@ Ask the user to clarify (if not obvious from description):
 - Use case: Simple features, brownfield modifications
 - Next step: `/plan` with `templates/plan-template-lightweight.md`
 
-**FULL Mode (800+ LOC total - DEFAULT):**
+**FULL Mode (large features - DEFAULT):**
 - Include: All research phases, comprehensive context gathering
 - Use: `templates/spec-template.md` (current comprehensive template)
 - Generate: Complete spec with context engineering, research, full detail
@@ -64,7 +64,7 @@ Ask the user to clarify (if not obvious from description):
 - Keywords like "build", "create system", "implement" → Use full
 - When uncertain → Ask user clarifying questions above
 
-**Override safety:** If estimated LOC significantly differs from selected mode, warn user and suggest mode change.
+**Override safety:** If estimated scope significantly differs from selected mode, suggest mode change.
 
 ## Enhanced Specification Process
 
@@ -97,13 +97,10 @@ Ask the user to clarify (if not obvious from description):
 ### Phase 1: Research & Context Gathering
 **After loading existing context, conduct additional research:**
 
-**ULTRATHINK**: Before proceeding with research, deeply analyze the feature description to identify:
+Before research, consider:
 - Hidden complexity that isn't immediately apparent
-- Potential architectural implications and system-wide impacts
+- Architectural implications and system-wide impacts
 - Critical assumptions that need validation
-- Similar features that failed or succeeded and why
-- Long-term maintenance and evolution considerations
-- User experience implications beyond the obvious requirements
 
 1. **Codebase Research**:
    - Search for similar features in the codebase using patterns from the feature description

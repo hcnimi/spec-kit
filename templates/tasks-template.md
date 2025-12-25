@@ -3,33 +3,11 @@
 **Input**: Design documents from `/specs/[feature-id]/`
 **Prerequisites**: plan.md (required), research.md, data-model.md, contracts/
 
-## LOC Budget Validation
+## Scope Reference
 
-**From plan.md:** [Load implementation, test, and total estimates from plan.md LOC Budget Tracking section]
+**From plan.md:** Review implementation and test estimates from plan.md
 
-**Status Check:**
-- ✓ **Within ideal range** - Total: X (✓ 800-1200) | Test ratio: Y:1 (✓ ≥0.8) - Proceed with task generation
-- ⚠️ **Review recommended** - Total 700-800 or 1200-1300 | Test ratio 0.7-0.8 - Review task breakdown carefully
-- ❌ **Outside range** - Total <700 OR Total >1300 OR Test ratio <0.7 - STOP: See options below
-
-**If outside ideal range:**
-```
-⚠️  WARNING: This implementation is outside the ideal LOC range
-    Estimated from plan.md:
-    - Implementation: XXX LOC [✓ 400-600 | ❌ outside]
-    - Tests: XXX LOC [✓ 400-600 | ❌ outside]
-    - Total: XXX LOC [✓ 800-1200 | ❌ outside]
-    - Test ratio: X.X:1 [✓ ≥0.8 | ❌ <0.8]
-
-    OPTIONS:
-    1. Run `/decompose` to split into multiple capabilities (recommended if total >1200)
-    2. Document justification in plan.md and get approval
-    3. Review plan.md to identify scope reduction opportunities (if <800, consider merging with another capability)
-       - Can test coverage be adjusted to meet minimum 0.8:1 ratio?
-       - Can implementation be optimized?
-
-    RECOMMENDATION: Capabilities should target ~1000 LOC total (800-1200 acceptable) for optimal PR review
-```
+For larger features (>1500 LOC), consider using `/decompose` to split into smaller capabilities.
 
 ## Execution Flow (main)
 ```
@@ -75,9 +53,8 @@
 - [ ] T002 Initialize [language] project with [framework] dependencies
 - [ ] T003 [P] Configure linting and formatting tools
 
-## Phase 3.2: Tests First (TDD) ⚠️ MUST COMPLETE BEFORE 3.3
-**CRITICAL: These tests MUST be written and MUST FAIL before ANY implementation**
-**NOTE**: Follow test quality guidance from testing-quality-check skill (context-sensitive ratios, avoid test smells)
+## Phase 3.2: Tests (Write before or alongside implementation)
+Write tests that cover the key scenarios. Follow test quality guidance from testing-quality-check skill.
 - [ ] T004 [P] Contract test POST /api/users in tests/contract/test_users_post.py
 - [ ] T005 [P] Contract test GET /api/users/{id} in tests/contract/test_users_get.py
 - [ ] T006 [P] Integration test user registration in tests/integration/test_registration.py

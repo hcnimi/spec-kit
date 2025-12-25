@@ -787,7 +787,8 @@ def download_and_extract_template(project_path: Path, ai_assistant: str, script_
                             console.print(f"[cyan]Found nested directory structure[/cyan]")
                     
                     # Only extract spec-kit's user-facing assets
-                    ALLOWED_PATHS = {'.specify'}
+                    # Include both packaged (.spec-kit, .claude) and raw branch (memory, scripts, templates) structures
+                    ALLOWED_PATHS = {'.spec-kit', '.claude', 'specs', 'CONSTITUTION.md', 'memory', 'scripts', 'templates'}
 
                     # Copy only allowed paths to current directory
                     for item in source_dir.iterdir():
@@ -797,8 +798,8 @@ def download_and_extract_template(project_path: Path, ai_assistant: str, script_
 
                         dest_path = project_path / item.name
 
-                        # Special handling for .specify/
-                        if item.name == ".specify":
+                        # Special handling for .spec-kit/
+                        if item.name == ".spec-kit":
                             handle_specify_extraction(item, dest_path, force, verbose=verbose, tracker=tracker)
                             continue
 
@@ -810,8 +811,14 @@ def download_and_extract_template(project_path: Path, ai_assistant: str, script_
 
                         # Default: replace other allowed paths
                         if dest_path.exists():
-                            shutil.rmtree(dest_path)
-                        shutil.copytree(item, dest_path)
+                            if dest_path.is_dir():
+                                shutil.rmtree(dest_path)
+                            else:
+                                dest_path.unlink()
+                        if item.is_dir():
+                            shutil.copytree(item, dest_path)
+                        else:
+                            shutil.copy2(item, dest_path)
 
                     # Merge .gitignore from template
                     merge_gitignore(project_path, source_dir, verbose=verbose, tracker=tracker)
@@ -842,7 +849,8 @@ def download_and_extract_template(project_path: Path, ai_assistant: str, script_
                             console.print(f"[cyan]Found nested directory structure[/cyan]")
 
                     # Only copy spec-kit's user-facing assets
-                    ALLOWED_PATHS = {'.specify'}
+                    # Include both packaged (.spec-kit, .claude) and raw branch (memory, scripts, templates) structures
+                    ALLOWED_PATHS = {'.spec-kit', '.claude', 'specs', 'CONSTITUTION.md', 'memory', 'scripts', 'templates'}
 
                     for item in source_dir.iterdir():
                         # Filter: only process spec-kit namespaces
@@ -851,8 +859,8 @@ def download_and_extract_template(project_path: Path, ai_assistant: str, script_
 
                         dest_path = project_path / item.name
 
-                        # Special handling for .specify/
-                        if item.name == ".specify":
+                        # Special handling for .spec-kit/
+                        if item.name == ".spec-kit":
                             handle_specify_extraction(item, dest_path, force, verbose=verbose, tracker=tracker)
                             continue
 
@@ -864,8 +872,14 @@ def download_and_extract_template(project_path: Path, ai_assistant: str, script_
 
                         # Default: copy other allowed paths
                         if dest_path.exists():
-                            shutil.rmtree(dest_path)
-                        shutil.copytree(item, dest_path)
+                            if dest_path.is_dir():
+                                shutil.rmtree(dest_path)
+                            else:
+                                dest_path.unlink()
+                        if item.is_dir():
+                            shutil.copytree(item, dest_path)
+                        else:
+                            shutil.copy2(item, dest_path)
 
                     # Merge .gitignore from template
                     merge_gitignore(project_path, source_dir, verbose=verbose, tracker=tracker)

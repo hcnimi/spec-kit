@@ -9,7 +9,7 @@ description: Run validation gates to ensure quality and readiness at any stage o
 ## Available Validation Gates
 
 ### 1. Specification Validation
-**Ultrathink** Validates that a feature specification is complete and ready for planning.
+Validates that a feature specification is complete and ready for planning.
 
 ```bash
 # Run validation on current feature spec
@@ -26,7 +26,7 @@ description: Run validation gates to ensure quality and readiness at any stage o
 - [ ] **Similar Features**: Codebase patterns identified and referenced
 
 ### 2. Plan Validation
-**Ultrathink** Validates that an implementation plan meets all quality gates.
+Validates that an implementation plan meets quality gates.
 
 ```bash
 # Run validation on current implementation plan
@@ -43,7 +43,7 @@ description: Run validation gates to ensure quality and readiness at any stage o
 - [ ] **Integration Points**: All system integration points identified
 
 ### 3. Implementation Validation
-**Ultrathink** Validates that code implementation meets Spec Kit standards.
+Validates that code implementation meets standards.
 
 ```bash
 # Run validation on current implementation
@@ -59,7 +59,7 @@ description: Run validation gates to ensure quality and readiness at any stage o
 - [ ] **Integration Tests**: Contract and integration tests present and passing
 
 ### 4. Repository Validation
-**Ultrathink** Validates overall repository health and compliance.
+Validates overall repository health and compliance.
 
 ```bash
 # Run validation on entire repository
@@ -104,11 +104,10 @@ description: Run validation gates to ensure quality and readiness at any stage o
 - [ ] Commands support --help, --version, --format flags
 - [ ] Text-based input/output protocol followed
 
-**Test-First Principle** (NON-NEGOTIABLE):
-- [ ] Git history shows tests committed before implementation
-- [ ] RED-GREEN-Refactor cycle evidence in commits
-- [ ] Contract tests written first, then integration, then unit tests
-- [ ] No implementation commits without corresponding test commits
+**Test-First Principle** (Recommended):
+- [ ] Tests written before or alongside implementation
+- [ ] Contract tests, integration tests, and unit tests present
+- [ ] Test coverage appropriate for feature complexity
 
 ### Quality Gate Automation
 
@@ -244,7 +243,7 @@ weights:
 ### Common Issues
 1. **"Context references not found"**: Update ai_docs/ or fix file paths
 2. **"Constitutional violation: No CLI interface"**: Add command-line interface to library
-3. **"Test-first violation detected"**: Reorganize git history or add missing tests
+3. **"Insufficient test coverage"**: Add missing tests for uncovered scenarios
 4. **"Performance regression detected"**: Profile and optimize slow operations
 
 ### Recovery Strategies

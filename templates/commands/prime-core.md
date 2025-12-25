@@ -39,7 +39,7 @@ find . -name "*.py" -o -name "*.js" -o -name "*.ts" -o -name "*.go" -o -name "*.
 Load and summarize the project's constitutional principles:
 - Library-first development approach
 - CLI interface requirements
-- Test-first methodology (NON-NEGOTIABLE)
+- Test-first methodology (recommended)
 - Integration testing strategy
 - Observability requirements
 - Versioning and change management

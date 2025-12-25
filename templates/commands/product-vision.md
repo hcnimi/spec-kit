@@ -70,14 +70,12 @@ Generate product-level strategic vision (Tier 1) that provides context for all f
    - Understand go-to-market strategies
    - Identify business risks (market, competitive, adoption)
 
-5. **ULTRATHINK: Deep Strategic Analysis**
+5. **Strategic Analysis**
 
-   Before creating the vision document, deeply analyze:
+   Before creating the vision document, consider:
    - What business assumptions could invalidate this product?
    - What user behaviors are we assuming that might not be true?
    - What market dynamics could change in 6-12 months?
-   - What competitive responses should we anticipate?
-   - What edge cases or exceptional scenarios could derail adoption?
    - How does this product align with long-term business strategy?
 
 6. **Phase 2: Vision Generation**

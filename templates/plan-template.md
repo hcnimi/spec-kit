@@ -41,14 +41,11 @@ Phase 0-10: Feature Planning
 4. Fill Technical Context (scan for NEEDS CLARIFICATION)
    → Detect Project Type from context (web=frontend+backend, mobile=app+api)
    → Set Structure Decision based on project type
-   → ULTRATHINK: Analyze technical context for hidden dependencies, scaling implications,
-     performance bottlenecks, security considerations, and integration complexity
+   → Consider: hidden dependencies, performance, security, integration complexity
 3. Fill Implementation Blueprint section
    → Extract context items from spec's Context Engineering section
    → Document known patterns and gotchas
    → Run Context Completeness Gate
-   → ULTRATHINK: Evaluate architectural decisions against long-term maintainability,
-     system evolution, and potential failure modes
 4. Evaluate Constitution Check section below
    → If violations exist: Document in Complexity Tracking
    → If no justification possible: ERROR "Simplify approach first"
@@ -74,12 +71,7 @@ Phase 0-10: Feature Planning
 ## Summary
 [Extract from feature spec: primary requirement + technical approach from research]
 
-## LOC Budget Tracking
-
-**Targets:**
-- Implementation: 400-600 LOC
-- Tests: 400-600 LOC (≥1:1 ratio, minimum 0.8:1)
-- Total: ~1000 LOC (ideal 1000, acceptable 800-1200)
+## Scope Estimate
 
 **Estimated Breakdown:**
 | Component | Implementation LOC | Test LOC | Notes |
@@ -90,18 +82,7 @@ Phase 0-10: Feature Planning
 | Integration | | | [e.g., E2E test scenarios] |
 | **Subtotals** | **0** | **0** | **Total: 0 LOC** |
 
-**Status:** [Calculate totals and test ratio above]
-- ✓ **Within ideal range** - Total: X (✓ 800-1200) \| Test ratio: Y:1 (✓ ≥0.8)
-- ⚠️ **Review recommended** - Total 700-800 or 1200-1300 \| Test ratio 0.7-0.8 - Consider optimization
-- ❌ **Outside range** - Total <700 OR Total >1300 OR Test ratio <0.7 - See justification below OR run `/decompose`
-
-**Justification (if outside ideal range):**
-[If Total <800 OR Total >1200 OR Test ratio <0.8:1, document here:
-- Why this scope cannot be split further (for >1200) or why it's standalone (for <800)
-- What keeps these components tightly coupled
-- Why this test ratio is appropriate for the complexity
-- Why splitting would harm cohesion or introduce artificial boundaries
-- Approval status from tech lead]
+For larger features (>1500 LOC), consider using `/decompose` to break into smaller capabilities.
 
 ## Technical Context
 **Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
@@ -228,14 +209,12 @@ Phase 0-10: Feature Planning
 - CLI per library: [commands with --help/--version/--format]
 - Library docs: llms.txt format planned?
 
-**Testing (NON-NEGOTIABLE)**:
-- RED-GREEN-Refactor cycle enforced? (test MUST fail first)
-- Git commits show tests before implementation?
-- Order: Contract→Integration→E2E→Unit strictly followed?
-- Real dependencies used? (actual DBs, not mocks)
-- Integration tests for: new libraries, contract changes, shared schemas?
-- Test quality: Context-sensitive ratios enforced (see testing-quality-check skill)
-- FORBIDDEN: Implementation before test, skipping RED phase
+**Testing (Recommended)**:
+- Tests written before or alongside implementation
+- Test order: Contract→Integration→E2E→Unit (when practical)
+- Real dependencies used where feasible
+- Integration tests for: new libraries, contract changes, shared schemas
+- Test quality: Follow testing-quality-check skill guidance
 
 **Observability**:
 - Structured logging included?

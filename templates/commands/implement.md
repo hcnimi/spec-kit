@@ -1,8 +1,8 @@
 ---
-description: Execute implementation following the plan and tasks with strict TDD enforcement and validation gates
+description: Execute implementation following the plan and tasks
 ---
 
-# Implement - Execute Feature Implementation with TDD Enforcement
+# Implement - Execute Feature Implementation
 
 **Implementation Target**: $ARGUMENTS
 
@@ -12,11 +12,11 @@ description: Execute implementation following the plan and tasks with strict TDD
 
 - **Parent feature branch** (`username/jira-123.feature-name`):
    - Reads from: `specs/jira-123.feature-name/plan.md`, `tasks.md`
-   - Implementation: Single PR workflow (<1000 LOC total)
+   - Implementation: Single PR workflow
 
 - **Capability branch** (`username/jira-123.feature-name-cap-001`):
    - Reads from: `specs/jira-123.feature-name/cap-001-auth/plan.md`, `tasks.md`
-   - Implementation: Atomic PR workflow (~1000 LOC total, 800-1200 acceptable)
+   - Implementation: Atomic PR workflow (typical: 800-1500 LOC)
    - PR target: `cap-001` branch → `main` (not to parent branch)
 
 **No flag needed** - detection is automatic based on branch name pattern.
@@ -49,18 +49,12 @@ See "Capability PR Workflow (Atomic PRs)" section below for detailed workflow.
 
 ## Phase 0: Setup & Initialization
 
-### Constitutional Gate Check
+### Pre-Implementation Checklist
 
-**ULTRATHINK**: Before proceeding with implementation, deeply analyze:
-- What are the fundamental constitutional violations that could derail this entire implementation?
-- How do the architectural decisions in plan.md align with long-term system evolution?
-- What are the testing strategy implications that could compromise the TDD approach?
-- Which CLI interface decisions will affect user adoption and future feature development?
-- What observability gaps could lead to production debugging nightmares?
-
+Before proceeding, verify:
 - [ ] Library-first architecture confirmed in plan.md
 - [ ] CLI interface design documented
-- [ ] Test-first approach validated in tasks.md
+- [ ] Test approach validated in tasks.md
 - [ ] Observability requirements identified
 
 ### Project Setup Tasks
@@ -72,142 +66,33 @@ See "Capability PR Workflow (Atomic PRs)" section below for detailed workflow.
 
 ## Phase 1: Test-First Development (RED Phase)
 
-### CRITICAL: Tests MUST be written, committed, and FAILING before ANY implementation
+Tests should be written before implementation when practical. Consider:
+- What test scenarios validate the core business value?
+- Which tests provide the most informative feedback during development?
 
-**Think hard**: Before writing tests, carefully consider:
-- What are the most critical test scenarios that will validate the core business value?
-- How can the test structure support parallel development while maintaining dependencies?
-- Which test failures will provide the most informative feedback during development?
-- What are the integration points that need the most comprehensive test coverage?
+### Test Directory Structure
 
-### Testing Standards Reference
-
-**CRITICAL**: Follow `~/.claude/instructions/standards/python/testing.md` for all test code.
-
-**Test Quality**: The `testing-quality-check` skill enforces context-sensitive quality standards (ratios, smells, refactoring patterns).
-
-**5-Layer Testing Standard**:
-- **Layer 1 (🔴 CI/CD)**: Pure pytest-style functions, 90% coverage, module mocking in conftest.py
-- **Layer 2 (🔴 TDD)**: This workflow enforces WHEN (outside-in order), standards define HOW (test patterns)
-- **Layer 3 (🟢 PRIMARY)**: pytest functions + fixtures + assert statements
-- **Layer 3 (🟡 LEGACY)**: unittest.TestCase allowed for existing tests
-- **Layer 4 (🔵)**: Organization (contract/, unit/, integration/, functional/), mocking patterns
-- **Layer 5 (🟠)**: Advanced techniques (hypothesis, snapshot, benchmarks)
-
-**Test Directory Structure** (from Layer 1):
 ```
 tests/
-├── contract/       # Contract tests (write first)
-├── unit/           # Unit tests (write second)
-├── integration/    # Integration tests (write third)
-├── functional/     # Functional tests (write fourth)
-└── conftest.py     # Module-level mocking, session fixtures
+├── contract/       # Contract tests
+├── unit/           # Unit tests
+├── integration/    # Integration tests
+├── functional/     # Functional tests
+└── conftest.py     # Shared fixtures
 ```
 
-**Test Creation Order**:
-1. **Contract Tests** [P] - One per API endpoint/contract → `tests/contract/`
-   - Write pytest-style contract tests from contracts/*.md
-   - Follow Layer 3 PRIMARY pattern (functions + fixtures + assert)
-   - Tests must fail with import/module errors (implementation doesn't exist)
+### Test Creation Order
+1. **Contract Tests** [P] - From contracts/*.md → `tests/contract/`
+2. **Entity/Model Tests** [P] - Per data model → `tests/unit/`
+3. **Integration Tests** - By dependency → `tests/integration/`
 
-   **Example** (pytest-style):
-   ```python
-   # tests/contract/test_user_api.py
-   import pytest
-
-   @pytest.fixture
-   def api_client():
-       from src.app import app  # This import will FAIL initially
-       return app.test_client()
-
-   def test_create_user_contract(api_client):
-       """Contract: POST /users returns 201 with user object"""
-       response = api_client.post("/users", json={
-           "email": "test@example.com",
-           "name": "Test User"
-       })
-
-       assert response.status_code == 201
-       assert "id" in response.json
-   ```
-
-   - Commit: `/smart-commit "test: add failing contract tests for [feature]"`
-
-2. **Entity/Model Tests** [P] - One per data model entity → `tests/unit/test_models.py`
-   - Write pytest-style unit tests for models
-   - Test validation, business rules, constraints
-   - Tests must fail (models don't exist yet)
-
-   **Example** (pytest-style):
-   ```python
-   # tests/unit/test_user_model.py
-   import pytest
-   from src.models import User  # This import will FAIL initially
-
-   def test_user_creation_with_valid_data():
-       """Test creating user with valid email"""
-       user = User(email="test@example.com", name="Test")
-
-       assert user.email == "test@example.com"
-       assert user.name == "Test"
-
-   def test_user_creation_with_invalid_email():
-       """Test user creation fails with invalid email"""
-       with pytest.raises(ValueError, match="Invalid email"):
-           User(email="invalid", name="Test")
-   ```
-
-   - Commit: `/smart-commit "test: add failing model tests"`
-
-3. **Integration Tests** - Sequential by dependency → `tests/integration/`
-   - Write pytest-style integration tests
-   - Test component interactions, workflows from spec.md
-   - Include error scenarios
-
-   **Example** (pytest-style):
-   ```python
-   # tests/integration/test_user_workflow.py
-   import pytest
-
-   @pytest.fixture
-   def test_db():
-       """Test database with cleanup"""
-       from src.database import create_test_db  # Will FAIL initially
-       db = create_test_db()
-       yield db
-       db.cleanup()
-
-   def test_create_and_retrieve_user(test_db):
-       """Test complete user creation and retrieval flow"""
-       from src.services.user_service import UserService  # Will FAIL
-
-       service = UserService(db=test_db)
-       user = service.create(email="test@example.com", name="Test")
-       retrieved = service.get(user["id"])
-
-       assert retrieved["email"] == "test@example.com"
-   ```
-
-   - Commit: `/smart-commit "test: add failing integration tests"`
-
-**Validation Gate**:
-```bash
-# Verify all tests are failing appropriately
-npm test || python -m pytest || go test ./...
-# Expected: All tests should fail with implementation-not-found errors
-```
+After writing tests, verify they fail appropriately before implementation.
 
 ## Phase 2: Core Implementation (GREEN Phase)
 
 ### Implementation Rules
 
-**Think**: Before implementing each component, carefully consider:
-- What is the minimal code needed to make the failing tests pass?
-- How does this implementation align with existing codebase patterns?
-- Are there any TDD violations (implementing features without failing tests)?
-
-- Only write enough code to make tests pass
-- No features without corresponding failing tests
+- Write minimal code to make tests pass
 - Follow patterns from ai_docs/ and existing code
 - Respect [P] markers for parallel execution
 
@@ -245,33 +130,12 @@ npm test || python -m pytest || go test ./...
 
 ## Phase 3: Refactor & Polish (REFACTOR Phase)
 
-### Code Quality Improvements
+- Refactor for clarity without changing behavior
+- Extract common patterns to utilities
+- Optimize performance bottlenecks
+- Add edge case tests and verify coverage
 
-**Think hard**: Before refactoring, carefully consider:
-- What are the patterns that emerged during implementation that could be abstracted?
-- How can the code be made more maintainable without changing behavior?
-- Which performance optimizations provide the most value with the least risk?
-- What are the potential breaking changes that need to be avoided?
-
-- [ ] Refactor for clarity without changing behavior
-- [ ] Extract common patterns to utilities
-- [ ] Optimize performance bottlenecks
-- [ ] Improve error messages and logging
-- [ ] Add comprehensive documentation
-
-### Additional Testing
-- [ ] Add edge case tests
-- [ ] Include performance benchmarks
-- [ ] Add property-based tests (if applicable)
-- [ ] Verify test coverage metrics
-
-### Final Validation
-```bash
-# Run full validation suite
-/validate implementation --comprehensive
-/validate repository
-/review
-```
+Run `/validate implementation` when complete.
 
 ## Phase 4: Documentation & Delivery
 
@@ -297,10 +161,7 @@ npm test || python -m pytest || go test ./...
 
 ### If on capability branch (e.g., `username/jira-123.feature-cap-001`):
 
-1. **Verify atomic scope**:
-   - Run: `git diff main --stat` to confirm ~1000 LOC total (800-1200 acceptable)
-   - Break down: Implementation LOC vs Test LOC (target ratio ≥0.8:1)
-   - If Total <800 OR Total >1200 OR Test ratio <0.8:1: document justification in PR description
+1. **Review scope**: Run `git diff main --stat` to see total changes
 
 2. **Create PR to main**:
    ```bash
@@ -313,18 +174,11 @@ npm test || python -m pytest || go test ./...
    - [Key component 2]
    - [Key component 3]
 
-   ## LOC Impact
-   - Implementation: XXX LOC (target 400-600)
-   - Tests: XXX LOC (target 400-600, ratio ≥0.8:1)
-   - Total: XXX LOC (target ~1000, acceptable 800-1200)
-
    ## Dependencies
    - Depends on: [cap-XXX if any]
    - Enables: [cap-YYY that depend on this]
 
    ## Test Coverage
-   - Contract tests: ✓
-   - Integration tests: ✓
    - All tests passing: ✓
 
    Part of parent feature: specs/[jira-123.feature-name]/
@@ -353,12 +207,10 @@ npm test || python -m pytest || go test ./...
    ```
 
 ### Benefits of Capability PR Workflow:
-- **Fast reviews**: 800-1200 LOC reviewed in 1-2 days vs 2000+ LOC taking 7+ days
+- **Fast reviews**: Smaller PRs reviewed faster
 - **Parallel development**: Multiple team members work on different capabilities simultaneously
 - **Early integration**: Merge to main quickly, catch integration issues early
-- **Manageable TDD**: Test-first approach easier with smaller scope (impl + tests both bounded)
 - **Clear ownership**: Each PR has focused scope and clear acceptance criteria
-- **Bounded test growth**: Prevents test files from ballooning without limit
 
 ## Error Handling & Recovery
 
@@ -398,14 +250,11 @@ Use TodoWrite tool throughout:
 - Update with blockers if encountered
 - Add new tasks discovered during implementation
 
-## Constitutional Enforcement
+## Recommended Practices
 
-**NON-NEGOTIABLE Requirements**:
-1. Tests MUST exist and fail before implementation
-2. Features MUST be implemented as libraries
-3. Libraries MUST expose CLI interfaces
-4. All code MUST have structured logging
-5. Git history MUST show tests before implementation
+- Write tests before implementation when practical
+- Implement features as libraries with CLI interfaces
+- Include structured logging for observability
 
 ## Success Criteria
 
