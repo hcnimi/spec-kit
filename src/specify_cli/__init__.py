@@ -1071,10 +1071,11 @@ def generate_ai_commands(project_path: Path, ai_assistant: str, script_type: str
     """Generate AI-specific commands from templates/commands/*.md files."""
 
     def rewrite_paths(content: str) -> str:
-        """Rewrite paths to use .specify/ prefix."""
-        content = re.sub(r'(/?)memory/', r'.specify/memory/', content)
-        content = re.sub(r'(/?)scripts/', r'.specify/scripts/', content)
-        content = re.sub(r'(/?)templates/', r'.specify/templates/', content)
+        """Rewrite paths to use .specify/ prefix (idempotent)."""
+        # Use negative lookbehind to avoid doubling .specify/ prefix
+        content = re.sub(r'(?<!\.specify/)memory/', r'.specify/memory/', content)
+        content = re.sub(r'(?<!\.specify/)scripts/', r'.specify/scripts/', content)
+        content = re.sub(r'(?<!\.specify/)templates/', r'.specify/templates/', content)
         return content
 
     def extract_yaml_field(content: str, field: str) -> str:
