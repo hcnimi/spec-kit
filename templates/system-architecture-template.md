@@ -194,27 +194,27 @@ This document tracks the evolution of system-wide architecture decisions across 
 *These constraints apply to ALL features unless explicitly justified and approved.*
 
 ### Database Constraints
-- **PRIMARY RULE**: Use PostgreSQL for persistent data
+- **Guideline**: Use PostgreSQL for persistent data
 - **Exception Process**: New database types require architecture review
 - **Rationale**: Maintain operational simplicity, team expertise
 
 ### Authentication Constraints
-- **PRIMARY RULE**: Use existing JWT authentication system
+- **Guideline**: Use existing JWT authentication system
 - **Exception Process**: New auth schemes require security review
 - **Rationale**: Consistent security model, reduce attack surface
 
 ### API Constraints
-- **PRIMARY RULE**: REST endpoints following existing conventions
+- **Guideline**: REST endpoints following existing conventions
 - **Exception Process**: GraphQL/gRPC require specific use case justification
 - **Rationale**: API consistency, client compatibility
 
 ### Deployment Constraints
-- **PRIMARY RULE**: Deploy within existing Docker/container infrastructure
+- **Guideline**: Deploy within existing Docker/container infrastructure
 - **Exception Process**: New deployment models require operations review
 - **Rationale**: Operational efficiency, monitoring consistency
 
 ### Language Constraints
-- **PRIMARY RULE**: [Primary language] for backend services
+- **Guideline**: [Primary language] for backend services
 - **Exception Process**: New languages require architecture review
 - **Rationale**: Team expertise, operational consistency
 

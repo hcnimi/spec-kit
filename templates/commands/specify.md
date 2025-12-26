@@ -83,8 +83,8 @@ Ask the user to clarify (if not obvious from description):
 **System Architecture Check**:
 2. Check if `docs/system-architecture.md` exists in the repository
    → If exists: Read and extract the following
-     - Technology stack constraints (PostgreSQL, Node.js, etc. - note what MUST be used)
-     - Integration requirements (existing APIs, auth systems - note what MUST integrate with)
+     - Technology stack constraints (PostgreSQL, Node.js, etc. - note what should be used)
+     - Integration requirements (existing APIs, auth systems - note what to integrate with)
      - Architecture version (understand current system state)
      - Architectural patterns (monolith vs microservices, deployment model)
    → If missing: No architectural constraints (likely first feature/MVP - this /specify will inform first /plan)
@@ -176,29 +176,29 @@ Before research, consider:
 ## Next Steps After Specification
 
 **Option 1: Direct Implementation (Simple Features)**
-- If feature is naturally small (estimated <1000 LOC total):
+- If feature is small and focused:
   - Proceed directly to `/plan` for implementation
-  - Target: 400-800 LOC total (200-400 impl + 200-400 tests)
+  - Single PR workflow
   - Skip decomposition step
 
 **Option 2: Capability Decomposition (Complex Features)**
-- If feature is large or complex (estimated >1200 LOC total):
+- If feature is large or complex:
   - Run `/decompose` to break into atomic capabilities
-  - Each capability: ~1000 LOC total (400-600 impl + 400-600 tests, 800-1200 acceptable)
+  - Each capability targets a reviewable PR size
   - Then run `/plan --capability cap-001` for each capability
 
 **Decision Criteria:**
 - **Use `/decompose` if:**
   - Feature has >5 functional requirements
   - Multiple entities or bounded contexts
-  - Estimated >1000 LOC total (implementation + tests)
+  - Multiple components that could be reviewed separately
   - Multiple developers working in parallel
-  - Want atomic PRs (400-800 LOC ideal)
+  - Want atomic PRs for faster reviews
 
 - **Skip `/decompose` if:**
   - Simple CRUD or single entity
   - <5 functional requirements
-  - Estimated <1000 LOC total (implementation + tests)
+  - Single bounded context, single PR
   - Single developer working sequentially
 
 ## Research Integration Guidelines

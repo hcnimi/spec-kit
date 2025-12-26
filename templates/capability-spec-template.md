@@ -2,7 +2,7 @@
 
 **Parent Feature:** [../spec.md](../spec.md)
 **Capability ID:** Cap-XXX
-**Estimated LOC:** Implementation XXX + Tests XXX = Total XXX (ideal: 1000 total, range: 800-1200)
+**Size:** [Small | Medium] (targets reviewable PR)
 **Dependencies:** [Cap-XXX, Cap-YYY | None]
 **Created**: [DATE]
 **Status**: Draft
@@ -24,13 +24,12 @@
    → Only scenarios this capability fulfills
 5. Define acceptance criteria
    → Testable conditions for capability completion
-6. Estimate component breakdown
-   → Validate Implementation 400-600 LOC + Tests 400-600 LOC = Total ~1000 LOC (800-1200 acceptable)
+6. Estimate component breakdown (qualitative sizing)
 7. Fill Context Engineering for this capability
    → Research codebase patterns specific to this scope
    → Document libraries/gotchas relevant to this capability
 8. Run Review Checklist
-   → If Total <800 OR Total >1200 OR Test ratio <0.8: WARN "Outside ideal range, add justification"
+   → If scope seems too large for single PR: Consider further decomposition
 9. Return: SUCCESS (ready for /plan --capability)
 ```
 
@@ -40,8 +39,8 @@
 
 - ✅ Focus on single bounded context (e.g., "User Auth", not "Entire User System")
 - ✅ Independently testable and deployable
-- ✅ Target 1000 total LOC (implementation + tests): 400-600 impl + 400-600 tests = 800-1200 total
-- ✅ Maintain ≥1:1 test-to-implementation ratio (0.8:1 minimum)
+- ✅ Target reviewable PR size (can be reviewed in one session)
+- ✅ Include adequate test coverage for the scope
 - ❌ Avoid dependencies on uncompleted capabilities
 - ❌ No cross-capability concerns (handle in separate capability)
 
@@ -70,7 +69,7 @@
 ### Research & Documentation *(fill during /specify)*
 
 ```yaml
-# MUST READ - Specific to this capability
+# Read - Specific to this capability
 - url: [URL with section anchor for this capability's needs]
   why: [Specific methods/patterns needed for THIS capability]
   critical: [Key insights for this capability's implementation]
@@ -109,9 +108,9 @@ Research findings specific to this capability's scope:
   - **Cap-XXX Scope**: [Partial fulfillment - what part this capability handles]
 
 **Capability-Specific Requirements:**
-- **CFR-001**: This capability MUST [specific requirement for this scope]
-- **CFR-002**: This capability MUST [specific requirement for this scope]
-- **CFR-003**: Users MUST be able to [capability-specific interaction]
+- **CFR-001**: This capability should [specific requirement for this scope]
+- **CFR-002**: This capability should [specific requirement for this scope]
+- **CFR-003**: Users should be able to [capability-specific interaction]
 
 ---
 
@@ -141,20 +140,18 @@ Research findings specific to this capability's scope:
 
 ---
 
-## Component Breakdown *(LOC estimation)*
+## Component Breakdown
 
-| Component | Implementation LOC | Test LOC | Notes |
-|-----------|-------------------|----------|-------|
-| Models | XX | XX | [e.g., 2 entities × 50 LOC + validation tests] |
-| Services | XX | XX | [e.g., Service layer logic + service tests] |
-| API/CLI | XX | XX | [e.g., 3 endpoints × 30 LOC + contract tests] |
-| Integration | XX | XX | [e.g., E2E scenarios] |
-| **Subtotals** | **XXX** | **XXX** | **Total: XXX LOC** |
-| **Status** | [✓ 400-600 \| ⚠️ outside] | [✓ 400-600 \| ⚠️ outside] | [✓ 800-1200 \| ⚠️ outside] |
-| **Test Ratio** | | **X.X:1** | [✓ ≥1:1 \| ⚠️ <0.8:1] |
+**Components:**
+- Models: [count] entities with validation
+- Services: [count] operations/use cases
+- API/CLI: [count] endpoints/commands
+- Tests: Contract + integration coverage
 
-**Justification (if outside ideal range):**
-[If Total <800 OR Total >1200 OR Test ratio <0.8:1: Explain why this size is appropriate, what keeps it cohesive, why tests are proportioned this way]
+**Size Assessment:**
+- [ ] Small: 1-2 components, straightforward
+- [ ] Medium: 3-4 components, clear boundaries
+- [ ] Too Large?: Consider further decomposition
 
 ---
 
@@ -191,7 +188,7 @@ Research findings specific to this capability's scope:
 - [ ] Capability-specific requirements (CFR-XXX) defined
 - [ ] Requirements are testable within this capability
 - [ ] Success criteria measurable for THIS capability
-- [ ] LOC estimate: Total 800-1200 (ideal 1000), Test ratio ≥0.8:1 (or justified if outside range)
+- [ ] Scope appropriate for reviewable PR (small or medium size)
 
 ### Capability Independence
 - [ ] Can be implemented independently (given dependencies are met)
@@ -209,8 +206,8 @@ Research findings specific to this capability's scope:
 - [ ] Capability scope defined
 - [ ] Functional requirements scoped
 - [ ] User scenarios extracted
-- [ ] Component breakdown estimated (impl + test LOC)
-- [ ] LOC budget validated (total 800-1200, test ratio ≥0.8:1)
+- [ ] Component breakdown estimated
+- [ ] Size validated (appropriate for single PR)
 - [ ] Dependencies identified
 - [ ] Review checklist passed
 

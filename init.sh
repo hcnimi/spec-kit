@@ -479,58 +479,54 @@ process_single_repo() {
                 local name=$(basename "$template_file" .md)
                 local output_file="$target_dir/$name.$ext"
 
-                if [[ "$DESTROY" == true ]] || [[ ! -f "$output_file" ]]; then
-                    # Read template and apply substitutions
-                    local content=$(cat "$template_file")
+                # Always overwrite commands to keep them in sync with templates
+                local content=$(cat "$template_file")
 
-                    content=${content//\/memory\//.specify\/memory\/}
-                    content=${content//memory\//.specify\/memory\/}
-                    content=${content//\/templates\//.specify\/templates\/}
-                    content=${content//templates\//.specify\/templates\/}
-                    content=${content//\/scripts\//.specify\/scripts\/}
-                    content=${content//scripts\//.specify\/scripts\/}
+                content=${content//\/memory\//.specify\/memory\/}
+                content=${content//memory\//.specify\/memory\/}
+                content=${content//\/templates\//.specify\/templates\/}
+                content=${content//templates\//.specify\/templates\/}
+                content=${content//\/scripts\//.specify\/scripts\/}
+                content=${content//scripts\//.specify\/scripts\/}
 
-                    # Apply script command substitution
-                    if [[ "$SCRIPT_TYPE" == "sh" ]]; then
-                        local script_cmd=".specify/$(grep -E '^  sh: ' "$template_file" | sed 's/^  sh: //' || echo '')"
-                    else
-                        local script_cmd=".specify/$(grep -E '^  ps: ' "$template_file" | sed 's/^  ps: //' || echo '')"
-                    fi
-
-                    content=${content//\{SCRIPT\}/$script_cmd}
-                    content=${content//\{ARGS\}/$arg_format}
-                    content=${content//__AGENT__/$AI_ASSISTANT}
-
-                    # Remove YAML frontmatter scripts section for cleaner output
-                    content=$(echo "$content" | awk '
-                    BEGIN { in_frontmatter=0; skip_scripts=0 }
-                    /^---$/ {
-                        if (NR==1) in_frontmatter=1
-                        else if (in_frontmatter) in_frontmatter=0
-                        print; next
-                    }
-                    in_frontmatter && /^scripts:$/ { skip_scripts=1; next }
-                    in_frontmatter && skip_scripts && /^[a-zA-Z].*:/ { skip_scripts=0 }
-                    in_frontmatter && skip_scripts && /^  / { next }
-                    { print }
-                    ')
-
-                    if [[ "$ext" == "toml" ]]; then
-                        # Extract description for TOML format
-                        local description=$(echo "$content" | grep -E '^description: ' | sed 's/^description: //' | tr -d '"' || echo "")
-                        echo "description = \"$description\"" > "$output_file"
-                        echo "" >> "$output_file"
-                        echo 'prompt = """' >> "$output_file"
-                        echo "$content" >> "$output_file"
-                        echo '"""' >> "$output_file"
-                    else
-                        echo "$content" > "$output_file"
-                    fi
-
-                    log "Generated $name.$ext"
+                # Apply script command substitution
+                if [[ "$SCRIPT_TYPE" == "sh" ]]; then
+                    local script_cmd=".specify/$(grep -E '^  sh: ' "$template_file" | sed 's/^  sh: //' || echo '')"
                 else
-                    log "Skipped $name.$ext (already exists, use --destroy to overwrite)"
+                    local script_cmd=".specify/$(grep -E '^  ps: ' "$template_file" | sed 's/^  ps: //' || echo '')"
                 fi
+
+                content=${content//\{SCRIPT\}/$script_cmd}
+                content=${content//\{ARGS\}/$arg_format}
+                content=${content//__AGENT__/$AI_ASSISTANT}
+
+                # Remove YAML frontmatter scripts section for cleaner output
+                content=$(echo "$content" | awk '
+                BEGIN { in_frontmatter=0; skip_scripts=0 }
+                /^---$/ {
+                    if (NR==1) in_frontmatter=1
+                    else if (in_frontmatter) in_frontmatter=0
+                    print; next
+                }
+                in_frontmatter && /^scripts:$/ { skip_scripts=1; next }
+                in_frontmatter && skip_scripts && /^[a-zA-Z].*:/ { skip_scripts=0 }
+                in_frontmatter && skip_scripts && /^  / { next }
+                { print }
+                ')
+
+                if [[ "$ext" == "toml" ]]; then
+                    # Extract description for TOML format
+                    local description=$(echo "$content" | grep -E '^description: ' | sed 's/^description: //' | tr -d '"' || echo "")
+                    echo "description = \"$description\"" > "$output_file"
+                    echo "" >> "$output_file"
+                    echo 'prompt = """' >> "$output_file"
+                    echo "$content" >> "$output_file"
+                    echo '"""' >> "$output_file"
+                else
+                    echo "$content" > "$output_file"
+                fi
+
+                log "Updated $name.$ext"
             fi
         done
     }

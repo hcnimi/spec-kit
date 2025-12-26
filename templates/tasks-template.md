@@ -7,7 +7,7 @@
 
 **From plan.md:** Review implementation and test estimates from plan.md
 
-For larger features (>1500 LOC), consider using `/decompose` to split into smaller capabilities.
+For complex features with many components, consider using `/decompose` to split into smaller capabilities.
 
 ## Execution Flow (main)
 ```

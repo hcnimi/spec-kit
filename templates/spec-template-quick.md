@@ -3,7 +3,7 @@
 **Feature Branch**: `[username/jira-123.feature-name]` OR `[username/feature-name]`
 **Created**: [DATE]
 **Status**: Draft
-**Mode**: Quick (<200 LOC total)
+**Mode**: Quick (trivial change, minimal scope)
 **Input**: User description: "$ARGUMENTS"
 
 ---
@@ -21,7 +21,7 @@
 ## Requirements
 
 ### Requirement: [REQUIREMENT NAME]
-[Clear, testable requirement statement using SHALL/MUST]
+[Clear, testable requirement statement describing expected behavior]
 
 #### Scenario: [SCENARIO NAME]
 - GIVEN [initial context]

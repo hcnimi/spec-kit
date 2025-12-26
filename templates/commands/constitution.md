@@ -2,7 +2,7 @@
 description: Create or update the project constitution from interactive or provided principle inputs, ensuring all dependent templates stay in sync.
 ---
 
-The user input to you can be provided directly by the agent or as a command argument - you **MUST** consider it before proceeding with the prompt (if not empty).
+The user input to you can be provided directly by the agent or as a command argument - consider it before proceeding with the prompt (if not empty).
 
 User input:
 
@@ -20,7 +20,7 @@ Follow this execution flow:
     - If user input (conversation) supplies a value, use it.
     - Otherwise infer from existing repo context (README, docs, prior constitution versions if embedded).
     - For governance dates: `RATIFICATION_DATE` is the original adoption date (if unknown ask or mark TODO), `LAST_AMENDED_DATE` is today if changes are made, otherwise keep previous.
-    - `CONSTITUTION_VERSION` must increment according to semantic versioning rules:
+    - `CONSTITUTION_VERSION` should increment according to semantic versioning rules:
         * MAJOR: Backward incompatible governance/principle removals or redefinitions.
         * MINOR: New principle/section added or materially expanded guidance.
         * PATCH: Clarifications, wording, typo fixes, non-semantic refinements.
@@ -29,7 +29,7 @@ Follow this execution flow:
 3. Draft the updated constitution content:
     - Replace every placeholder with concrete text (no bracketed tokens left except intentionally retained template slots that the project has chosen not to define yet—explicitly justify any left).
     - Preserve heading hierarchy and comments can be removed once replaced unless they still add clarifying guidance.
-    - Ensure each Principle section: succinct name line, paragraph (or bullet list) capturing non‑negotiable rules, explicit rationale if not obvious.
+    - Ensure each Principle section: succinct name line, paragraph (or bullet list) capturing core rules, explicit rationale if not obvious.
     - Ensure Governance section lists amendment procedure, versioning policy, and compliance review expectations.
 
 4. Consistency propagation checklist (convert prior checklist into active validations):
@@ -52,7 +52,7 @@ Follow this execution flow:
     - No remaining unexplained bracket tokens.
     - Version line matches report.
     - Dates ISO format YYYY-MM-DD.
-    - Principles are declarative, testable, and free of vague language ("should" → replace with MUST/SHOULD rationale where appropriate).
+    - Principles are declarative, testable, and clear. Use direct language that expresses intent without ambiguity.
 
 7. Write the completed constitution back to `memory/constitution.md` **using UTF-8 encoding** (overwrite).
 

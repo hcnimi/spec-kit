@@ -94,8 +94,7 @@ git status -s
 - `chore`: Maintenance tasks, dependencies, build changes
 
 ### 4. Smart Commit Generation
-- NEVER include "meta" information about spec-kit in commit messages (e.g.,  "LOC: 380 (within 500 budget)"                                            │ │
-  or "Part of parent feature: specs/wtmt-1027.contextual-embeddings-replace"
+- NEVER include spec-kit metadata in commit messages (e.g., "Part of parent feature: specs/...")
 - Based on the change analysis, I'll suggest appropriate commits:
 
 **For Test-First Development** (following Spec Kit constitution):

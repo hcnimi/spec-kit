@@ -16,7 +16,7 @@ description: Execute implementation following the plan and tasks
 
 - **Capability branch** (`username/jira-123.feature-name-cap-001`):
    - Reads from: `specs/jira-123.feature-name/cap-001-auth/plan.md`, `tasks.md`
-   - Implementation: Atomic PR workflow (typical: 800-1500 LOC)
+   - Implementation: Atomic PR workflow (reviewable scope)
    - PR target: `cap-001` branch → `main` (not to parent branch)
 
 **No flag needed** - detection is automatic based on branch name pattern.

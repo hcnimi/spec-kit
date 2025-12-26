@@ -35,10 +35,9 @@ Given the implementation details provided as an argument, do this:
    - Any technical constraints or dependencies mentioned
 
 4. **If CAPABILITY_MODE=true:**
-   - Verify LOC budget from capability spec (impl ≤500, tests ≤500, total ≤1000)
+   - Verify scope from capability spec (appropriate for single PR)
    - Check dependencies on other capabilities (from capabilities.md)
    - Ensure capability scope is clear and bounded
-   - Warn if impl >500 OR tests >500 OR total >1000
 
 5. Read the constitution at `/memory/constitution.md` to understand constitutional requirements.
 
@@ -56,8 +55,8 @@ Given the implementation details provided as an argument, do this:
    - Update Progress Tracking as you complete each phase
 
 7. **If CAPABILITY_MODE=true:**
-   - Validate LOC Budget Tracking section shows impl ≤500, tests ≤500, total ≤1000
-   - If any limit exceeded: Require justification OR suggest further decomposition
+   - Validate scope is appropriate for reviewable PR
+   - If scope seems too large: Suggest further decomposition
    - Ensure capability dependencies are documented
    - Verify all components scoped to this capability only
 
@@ -72,18 +71,18 @@ Given the implementation details provided as an argument, do this:
 
 ## Usage Examples
 
-**Parent feature planning (simple features <1000 LOC total):**
+**Parent feature planning (simple features, single PR):**
 ```bash
 /plan "Use FastAPI + PostgreSQL + React"
 → Generates plan.md for entire feature on current branch
 → Single PR workflow
 ```
 
-**Capability planning (atomic PRs, ~1000 LOC total each, 800-1200 acceptable):**
+**Capability planning (atomic PRs):**
 ```bash
 /plan --capability cap-001 "Use FastAPI + JWT for auth"
 → Creates NEW branch: username/jira-123.feature-cap-001
-→ Generates cap-001/plan.md scoped to ~1000 LOC total (800-1200 acceptable)
+→ Generates cap-001/plan.md scoped for reviewable PR
 → Atomic PR: cap-001 branch → main
 ```
 
@@ -101,7 +100,7 @@ When using `--capability cap-XXX`, the script:
    - All work happens on capability branch
 
 3. **PR workflow**:
-   - Implement on `cap-001` branch (~1000 LOC total, 800-1200 acceptable)
+   - Implement on `cap-001` branch (reviewable PR size)
    - Create PR: `cap-001` → `main`
    - After merge, checkout parent branch
    - Pull latest main into parent

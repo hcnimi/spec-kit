@@ -24,7 +24,7 @@
    → Strategic level, not feature-specific
 8. Create User Journey Maps (Mermaid diagrams - user perspective only)
 9. Define Success Metrics & KPIs
-   → Must be measurable and tied to business value
+   → Should be measurable and tied to business value
 10. Document Product-Wide Non-Functional Requirements
     → Performance, security, scale, compliance constraints
 11. Analyze Business Risks & Mitigation
@@ -46,7 +46,7 @@
 - 👥 Written for product leadership and stakeholders
 
 ### Section Requirements
-- **Mandatory sections**: Must be completed for every product
+- **Mandatory sections**: Should be completed for every product
 - When a section doesn't apply, remove it entirely (don't leave as "N/A")
 
 ### For AI Generation

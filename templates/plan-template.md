@@ -73,16 +73,16 @@ Phase 0-10: Feature Planning
 
 ## Scope Estimate
 
-**Estimated Breakdown:**
-| Component | Implementation LOC | Test LOC | Notes |
-|-----------|-------------------|----------|-------|
-| Models | | | [e.g., User + Profile entities + validation tests] |
-| Services | | | [e.g., UserService CRUD + service layer tests] |
-| API/CLI | | | [e.g., 4 endpoints × 20 LOC + contract tests] |
-| Integration | | | [e.g., E2E test scenarios] |
-| **Subtotals** | **0** | **0** | **Total: 0 LOC** |
+**Size**: [Small | Medium | Large]
+- **Small**: Single focused change, 1-2 components, single PR
+- **Medium**: Multiple components, clear boundaries, single PR
+- **Large**: Complex feature → Consider `/decompose` into atomic capabilities
 
-For larger features (>1500 LOC), consider using `/decompose` to break into smaller capabilities.
+**Components:**
+- Models: [count] entities with validation
+- Services: [count] operations
+- API/CLI: [count] endpoints/commands
+- Tests: Contract + integration coverage
 
 ## Technical Context
 **Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
@@ -93,7 +93,7 @@ For larger features (>1500 LOC), consider using `/decompose` to break into small
 **Project Type**: [single/web/mobile - determines source structure]  
 **Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
 **Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
-**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
+**Scale/Scope**: [domain-specific, e.g., 10k users, 50 screens or NEEDS CLARIFICATION]
 
 ## Implementation Blueprint *(enhanced from context engineering)*
 

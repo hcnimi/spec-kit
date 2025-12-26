@@ -3,7 +3,7 @@
 **Feature Branch**: `[username/jira-123.feature-name]` OR `[username/feature-name]`
 **Created**: [DATE]
 **Status**: Draft
-**Mode**: Lightweight (200-800 LOC total)
+**Mode**: Lightweight (small feature, single PR)
 **Input**: User description: "$ARGUMENTS"
 
 <!-- Workspace Metadata (auto-populated in multi-repo workspaces) -->
@@ -43,7 +43,7 @@
 ## Functional Requirements
 
 ### Requirement: [REQUIREMENT 1]
-The system SHALL [requirement statement].
+The system should [requirement statement].
 
 #### Scenario: [HAPPY PATH]
 - GIVEN [context]
@@ -73,11 +73,11 @@ The system SHALL [requirement statement].
 
 ## Technical Constraints
 
-**Must Integrate With**:
-- [Existing system/API that must be used]
+**Integrate With**:
+- [Existing system/API to use]
 
-**Must Use**:
-- [Technology/framework that must be used per system architecture]
+**Use**:
+- [Technology/framework per system architecture]
 
 <!-- Only list WHAT EXISTS, not implementation decisions -->
 

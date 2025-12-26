@@ -46,24 +46,22 @@ Given a parent feature specification, decompose it into independently-implementa
 - Map dependencies between requirement groups
 - Estimate complexity per group
 
-### Phase 2: Estimate LOC Per Capability
+### Phase 2: Estimate Scope Per Capability
 
-**For each identified group, estimate:**
-| Component | Implementation LOC | Test LOC | Notes |
-|-----------|-------------------|----------|-------|
-| Models | 50-100 | 50-80 | Entities + validation tests |
-| Services | 100-200 | 100-150 | CRUD + business logic + service tests |
-| API/CLI | 50-100 | 50-100 | Endpoints/commands + contract tests |
-| Integration | N/A | 50-100 | E2E scenarios |
+**For each identified group, assess:**
+- Models: [count] entities with validation
+- Services: [count] operations/use cases
+- API/CLI: [count] endpoints/commands
+- Tests: Contract + integration coverage
 
 **Target per capability:**
-Aim for capabilities that can be reviewed in a single PR (typically 500-1500 LOC total including tests).
+Aim for capabilities that can be reviewed in a single PR session.
 
 **Sizing guidance:**
-- Very small scope → Consider merging with related capability
-- Medium scope (500-1000 LOC) → Ideal for atomic PRs
-- Larger scope (1000-1500 LOC) → Acceptable if cohesive
-- Very large scope → Consider further decomposition
+- **Small:** 1-2 components, focused scope, straightforward review
+- **Medium:** 3-4 components, clear boundaries, manageable review
+- **Too small:** Consider merging with related capability
+- **Too large:** Consider further decomposition
 
 ### Phase 3: Order Capabilities
 
@@ -88,8 +86,8 @@ Aim for capabilities that can be reviewed in a single PR (typically 500-1500 LOC
      - Scope description
      - Dependencies
      - Business value
-     - Component breakdown with implementation and test LOC estimates
-     - Justification if impl >500 OR tests >500 OR total >1000
+     - Component breakdown (qualitative sizing)
+     - Size assessment (Small | Medium)
    - Generate dependency graph
    - Document implementation strategy
 
@@ -109,12 +107,12 @@ Aim for capabilities that can be reviewed in a single PR (typically 500-1500 LOC
      - List dependencies on other capabilities
      - Scope user scenarios to this capability
      - Estimate component breakdown
-     - Validate dual LOC budget (impl ≤500, tests ≤500, total ≤1000)
+     - Validate scope appropriate for single PR
 
 ### Phase 5: Validation
 
 **Decomposition quality checks:**
-- [ ] All capabilities: impl ≤500, tests ≤500, total ≤1000 (or justified)
+- [ ] All capabilities: Reviewable PR size (small or medium)
 - [ ] Each capability independently testable
 - [ ] No circular dependencies
 - [ ] All parent FRs assigned to a capability (no orphans)
@@ -148,9 +146,9 @@ specs/[jira-123.feature-name]/
 
 **For each capability (can be done in parallel where dependencies allow):**
 
-1. **Plan**: `/plan --capability cap-001` → generates cap-001/plan.md (~1000 LOC scoped, 800-1200 acceptable)
+1. **Plan**: `/plan --capability cap-001` → generates cap-001/plan.md (scoped for reviewable PR)
 2. **Tasks**: `/tasks` → generates cap-001/tasks.md (8-15 tasks)
-3. **Implement**: `/implement` → atomic PR (~1000 LOC total, 800-1200 acceptable)
+3. **Implement**: `/implement` → atomic PR
 4. **Repeat** for cap-002, cap-003, etc.
 
 ## Example Workflow
@@ -171,17 +169,17 @@ specs/[jira-123.feature-name]/
 # Step 3: Implement Cap-001 (creates NEW branch)
 /plan --capability cap-001 "Use FastAPI + JWT tokens"
 → Creates branch: username/proj-123.user-system-cap-001
-→ cap-001-auth/plan.md (380 LOC estimate)
+→ cap-001-auth/plan.md
 
 /tasks
 → cap-001-auth/tasks.md (10 tasks)
 
 /implement
-→ Implement on cap-001 branch (380 LOC)
+→ Implement on cap-001 branch
 
 # Create atomic PR to main
 gh pr create --base main --title "feat(auth): Cap-001 authentication capability"
-→ PR #1: cap-001 branch → main (380 LOC) ✓ MERGED
+→ PR #1: cap-001 branch → main ✓ MERGED
 
 # Step 4: Back to parent, sync, implement Cap-002
 git checkout username/proj-123.user-system
@@ -189,13 +187,13 @@ git pull origin main
 
 /plan --capability cap-002 "Use FastAPI + Pydantic models"
 → Creates branch: username/proj-123.user-system-cap-002
-→ cap-002-profiles/plan.md (320 LOC estimate)
+→ cap-002-profiles/plan.md
 
 /tasks → /implement
-→ PR #2: cap-002 branch → main (320 LOC) ✓ MERGED
+→ PR #2: cap-002 branch → main ✓ MERGED
 
 # Step 5: Repeat for cap-003...
-# Each capability = separate branch + atomic PR (~1000 LOC total, 800-1200 acceptable)
+# Each capability = separate branch + atomic PR
 ```
 
 **Key Points:**
@@ -211,7 +209,7 @@ git pull origin main
 - Consider merging tightly-coupled capabilities
 - Review if feature scope is too large (might need multiple parent features)
 
-**"Capabilities too small (<400 LOC total)":**
+**"Capabilities too small":**
 - Merge with related capabilities
 - Ensure not over-decomposing simple features
 
@@ -220,8 +218,8 @@ git pull origin main
 - Extract shared components to foundation capability
 - Reorder dependencies to break cycles
 
-**"Cannot estimate LOC accurately":**
-- Start with rough estimates (will refine during /plan)
+**"Cannot estimate scope accurately":**
+- Start with component counts (will refine during /plan)
 - Use similar features as reference
 - Document uncertainty, adjust during planning phase
 

@@ -2,7 +2,7 @@
 
 **Parent Spec:** [link to parent spec.md]
 **Decomposition Date:** [DATE]
-**LOC Budget per Capability:** Implementation 400-600 + Tests 400-600 = Total ~1000 LOC (ideal 1000, range 800-1200, test ratio ≥0.8:1)
+**Target per Capability:** Reviewable PR size (can be reviewed in one session)
 
 ## Execution Flow (main)
 ```
@@ -13,15 +13,15 @@
 3. Identify bounded contexts:
    → Group by: entity lifecycle, workflow stage, API clusters
    → Analyze dependencies between contexts
-4. Estimate LOC per capability:
-   → Implementation: Models (100-150) + Services (150-250) + API/CLI (100-150) = 400-600 LOC
-   → Tests: Contract tests (100-150) + Integration tests (100-150) + Unit tests (150-250) = 400-600 LOC
-   → Target total: ~1000 LOC per capability (ideal 1000, acceptable 800-1200)
+4. Estimate scope per capability:
+   → Components: Models + Services + API/CLI
+   → Tests: Contract + Integration coverage
+   → Target: Reviewable PR (can be completed and reviewed efficiently)
 5. Order capabilities:
    → By: infrastructure dependencies + business value
    → Mark foundation capabilities (no dependencies)
 6. Validate decomposition:
-   → Each capability: Total 800-1200 (ideal 1000), Test ratio ≥0.8:1 (or justified if outside range)
+   → Each capability: Reviewable PR size (small or medium)
    → No circular dependencies
    → All capabilities independently testable
    → Max 10 capabilities per parent feature
@@ -36,7 +36,7 @@
 ### Analysis Checklist
 - [ ] Analyzed functional requirements (FR-001 to FR-XXX)
 - [ ] Identified bounded contexts
-- [ ] Estimated LOC per capability (impl + test)
+- [ ] Estimated scope per capability
 - [ ] Ordered by dependencies and business value
 - [ ] Validated each capability is independently testable
 - [ ] Confirmed no circular dependencies
@@ -44,24 +44,24 @@
 
 ### Sizing Guidelines
 
-**Ideal Distribution (Total LOC including tests):**
-- **800-900 LOC:** Simple capability, focused scope (350-400 impl + 400-500 tests, 1.1:1 ratio) - target 25% of capabilities
-- **900-1000 LOC:** Standard capability, 2-3 components (400-450 impl + 450-550 tests, 1.2:1 ratio) - target 40% of capabilities
-- **1000-1100 LOC:** Complex capability, multiple integrations (450-500 impl + 500-600 tests, 1.2:1 ratio) - target 25% of capabilities
-- **1100-1200 LOC:** Very complex, tightly cohesive (500-550 impl + 550-650 tests, 1.2:1 ratio) - target 8% of capabilities
-- **>1200 LOC:** Exceptional, requires detailed justification (<2% of capabilities)
+**Capability Sizes:**
+- **Small:** 1-2 components, focused scope, straightforward review
+- **Medium:** 3-4 components, clear boundaries, manageable review
+- **Large:** Consider further decomposition or merge with related capability
 
-**Justification Required if Total <800 OR Total >1200 OR Test ratio <0.8:1:**
-- **<800 LOC:** Explain why this is a standalone capability vs merging with another
-- **>1200 LOC:** Tight coupling that would break if split, single cohesive algorithm, complex rule engine
-- **Test ratio <0.8:1:** Justify why lower test coverage is acceptable (e.g., simple CRUD, heavy code generation)
-- All exceptions approved by tech lead with rationale documented
+**Sizing Questions:**
+- Can this capability be reviewed in one session?
+- Is it independently testable and deployable?
+- Does it deliver a coherent vertical slice?
+- Are the boundaries clear with other capabilities?
 
 ---
 
 ## Capabilities
 
-### Cap-001: [Capability Name] (Est: XXX total LOC)
+### Cap-001: [Capability Name]
+
+**Size:** [Small | Medium]
 
 **Scope:** [One sentence describing what this capability delivers]
 
@@ -73,22 +73,14 @@
 - FR-XXX: [Requirement scoped to this capability]
 - FR-YYY: [Requirement scoped to this capability]
 
-**Component Breakdown:**
-| Component | Implementation LOC | Test LOC | Notes |
-|-----------|-------------------|----------|-------|
-| Models | XX | XX | [e.g., User + Profile entities + validation tests] |
-| Services | XX | XX | [e.g., UserService CRUD + service tests] |
-| API/CLI | XX | XX | [e.g., 4 endpoints + contract tests] |
-| Integration | XX | XX | [e.g., E2E test scenarios] |
-| **Subtotals** | **XXX** | **XXX** | **Total: XXX LOC** |
-| **Status** | [✓ 400-600 \| ⚠️ outside] | [✓ 400-600 \| ⚠️ outside] | [✓ 800-1200 \| ⚠️ outside] |
-| **Test Ratio** | | **X.X:1** | [✓ ≥1:1 \| ⚠️ <0.8:1] |
-
-**Justification (if outside ideal range):**
-[If Total <800 OR Total >1200 OR Test ratio <0.8:1: Explain why this size is appropriate, what keeps it cohesive, why tests are proportioned this way]
+**Components:**
+- Models: [count] entities with validation
+- Services: [count] operations
+- API/CLI: [count] endpoints/commands
+- Tests: Contract + integration coverage
 
 **Capability Branch:** `[username]/[jira-key].[feature-name]-cap-001`
-**PR Target:** `cap-001` branch → `main` (atomic PR, ~1000 LOC total ideal, 800-1200 acceptable)
+**PR Target:** `cap-001` branch → `main` (atomic PR)
 
 **Acceptance Criteria:**
 - [ ] [Specific testable criterion for this capability]
@@ -99,13 +91,13 @@
 
 ---
 
-### Cap-002: [Capability Name] (Est: XXX LOC)
+### Cap-002: [Capability Name]
 
 [Same structure as Cap-001]
 
 ---
 
-### Cap-00X: [Capability Name] (Est: XXX LOC)
+### Cap-00X: [Capability Name]
 
 [Repeat for each capability - target 3-8 capabilities per feature]
 
@@ -159,7 +151,7 @@ Cap-006 [Independent - no dependencies]
 ## Validation Checklist
 
 ### Decomposition Quality
-- [ ] All capabilities: Total 800-1200 (ideal 1000), Test ratio ≥0.8:1 (or have documented justification)
+- [ ] All capabilities: Reviewable PR size (small or medium)
 - [ ] Each capability delivers independently testable value
 - [ ] No circular dependencies in dependency graph
 - [ ] Foundation capabilities identified (enable others)
@@ -188,7 +180,7 @@ Cap-006 [Independent - no dependencies]
 - [ ] Parent spec loaded and analyzed
 - [ ] Functional requirements extracted
 - [ ] Bounded contexts identified
-- [ ] LOC estimates calculated
+- [ ] Scope estimates completed
 - [ ] Dependencies mapped
 - [ ] Capabilities ordered by priority
 - [ ] Validation checklist passed
@@ -199,6 +191,5 @@ Cap-006 [Independent - no dependencies]
 ---
 
 **Total Capabilities:** [X]
-**Total Estimated LOC:** [Sum of all capabilities - implementation + tests]
-**Average LOC per Capability:** [Total / X]
-**Capabilities Exceeding Limits:** [Count requiring justification (impl >500 OR tests >500 OR total >1000)]
+**Size Distribution:** [Small: X, Medium: Y]
+**Ready for Implementation:** Yes/No

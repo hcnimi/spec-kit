@@ -3,7 +3,7 @@
 **Feature Branch**: `[BRANCH_NAME]`
 **Created**: [DATE]
 **Status**: Draft
-**Mode**: Lightweight (200-800 LOC total)
+**Mode**: Lightweight (small feature, single PR)
 **Input**: Technical details: "$ARGUMENTS"
 
 ---
@@ -36,12 +36,10 @@
 #### Component 1: [NAME]
 **Purpose**: [What it does]
 **Key Functions**: [Main operations]
-**Estimated LOC**: [implementation + tests]
 
 #### Component 2: [NAME]
 **Purpose**: [What it does]
 **Key Functions**: [Main operations]
-**Estimated LOC**: [implementation + tests]
 
 <!-- 2-4 components typical for lightweight mode -->
 
@@ -74,17 +72,15 @@
 
 ---
 
-## LOC Budget Tracking
+## Scope Check
 
-**Target**: 200-800 LOC total (implementation + tests)
+**Size**: Small (single PR, focused scope)
 
-| Component | Implementation LOC | Test LOC | Total |
-|-----------|-------------------|----------|-------|
-| [Component 1] | ~X | ~Y | ~Z |
-| [Component 2] | ~X | ~Y | ~Z |
-| **TOTAL** | **~XXX** | **~XXX** | **~XXX** |
+**Components:**
+- [Component 1]: [brief description]
+- [Component 2]: [brief description]
 
-**Status**: [ ] Within budget | [ ] Needs review
+**If scope grows**: Consider switching to standard planning mode or `/decompose`
 
 ---
 
@@ -116,7 +112,7 @@
 
 **External**: [Third-party services/APIs]
 **Internal**: [Other features/components this depends on]
-**Blocking**: [Must be completed first]
+**Blocking**: [Complete these first]
 
 ---
 
@@ -132,7 +128,7 @@
 ## Review Checklist
 
 - [ ] Technology stack aligns with system architecture
-- [ ] LOC budget realistic (200-800 LOC total)
+- [ ] Scope appropriate for lightweight mode (small, focused feature)
 - [ ] All components have clear purpose
 - [ ] Testing strategy adequate
 - [ ] Dependencies identified

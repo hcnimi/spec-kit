@@ -36,16 +36,16 @@
    → If product vision exists: Use personas from product-vision.md
    → If no clear user flow: ERROR "Cannot determine user scenarios"
 8. Generate Functional Requirements
-   → Each requirement must be testable
+   → Each requirement should be testable
    → Mark ambiguous requirements
 9. Generate Non-Functional Requirements (NEW - Industry Tier 2)
    → If product vision exists: Inherit product-wide NFRs
    → Add feature-specific NFRs (performance, security, scale)
-   → Each NFR must be measurable
+   → Each NFR should be measurable
 10. Document Technical Constraints (NEW - Industry Tier 2)
    → If system architecture exists: Note integration requirements
    → Constraints are WHAT EXISTS, not HOW TO BUILD
-   → Must integrate with X, Must use existing Y
+   → Integrate with X, Use existing Y
 11. Identify Key Entities (if data involved)
 12. Run Review Checklist
    → If any [NEEDS CLARIFICATION]: WARN "Spec has uncertainties"
@@ -60,11 +60,11 @@
 ## ⚡ Quick Guidelines
 - ✅ Focus on WHAT users need and WHY
 - ✅ Include HOW WELL (performance targets, security requirements)
-- ✅ Include WHAT EXISTS (must integrate with X, must use existing Y)
+- ✅ Include WHAT EXISTS (integrate with X, use existing Y)
 - ❌ Avoid HOW TO BUILD (no architecture decisions, no technology choices)
 - 👥 Written for product/engineering collaboration (Industry Tier 2: Requirements + Constraints)
 ### Section Requirements
-- **Mandatory sections**: Must be completed for every feature
+- **Mandatory sections**: Should be completed for every feature
 - **Optional sections**: Include only when relevant to the feature
 - When a section doesn't apply, remove it entirely (don't leave as "N/A")
 
@@ -94,7 +94,7 @@ _Before finalizing this spec, validate: "If someone knew nothing about this code
 ### Research & Documentation *(fill during /specify)*
 
 ```yaml
-# MUST READ - Include these in implementation context
+# Read - Include these in implementation context
 - url: [Complete URL with section anchor if applicable]
   why: [Specific methods/concepts needed for implementation]
   critical: [Key insights that prevent common implementation errors]
@@ -141,15 +141,15 @@ Key findings from researching this feature type:
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
-- **FR-001**: System MUST [specific capability, e.g., "allow users to create accounts"]
-- **FR-002**: System MUST [specific capability, e.g., "validate email addresses"]  
-- **FR-003**: Users MUST be able to [key interaction, e.g., "reset their password"]
-- **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
-- **FR-005**: System MUST [behavior, e.g., "log all security events"]
+- **FR-001**: System should [specific capability, e.g., "allow users to create accounts"]
+- **FR-002**: System should [specific capability, e.g., "validate email addresses"]
+- **FR-003**: Users should be able to [key interaction, e.g., "reset their password"]
+- **FR-004**: System should [data requirement, e.g., "persist user preferences"]
+- **FR-005**: System should [behavior, e.g., "log all security events"]
 
 *Example of marking unclear requirements:*
-- **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
-- **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
+- **FR-006**: System should authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
+- **FR-007**: System should retain user data for [NEEDS CLARIFICATION: retention period not specified]
 
 ### Key Entities *(include if feature involves data)*
 - **[Entity 1]**: [What it represents, key attributes without implementation]
@@ -189,31 +189,31 @@ Key findings from researching this feature type:
 
 ### Technical Constraints *(NEW - Industry Tier 2)*
 
-*These specify WHAT EXISTS and must be used or integrated with. They are constraints, not decisions.*
+*These specify WHAT EXISTS and should be used or integrated with. They are constraints, not decisions.*
 
 **Key Distinction**:
-- ✅ Constraint: "Must integrate with existing PostgreSQL database" (what exists)
-- ✅ Constraint: "Must use existing JWT authentication" (what exists)
+- ✅ Constraint: "Integrate with existing PostgreSQL database" (what exists)
+- ✅ Constraint: "Use existing JWT authentication" (what exists)
 - ❌ Decision: "Use PostgreSQL for storage" (how to build - belongs in /plan)
 - ❌ Decision: "Implement JWT authentication" (how to build - belongs in /plan)
 
 #### Integration Constraints
-- Must integrate with: [Existing feature/system, e.g., "proj-1 messaging system"]
-- Must use existing: [Component, e.g., "WebSocket connection from proj-1"]
-- Must maintain compatibility with: [API/interface, e.g., "v1 REST API"]
+- Integrate with: [Existing feature/system, e.g., "proj-1 messaging system"]
+- Use existing: [Component, e.g., "WebSocket connection from proj-1"]
+- Maintain compatibility with: [API/interface, e.g., "v1 REST API"]
 
 #### Technology Constraints *(from system architecture)*
-- Must use: [Existing tech, e.g., "PostgreSQL 15+ (system constraint)"]
-- Must deploy via: [Infrastructure, e.g., "Existing Docker/ECS infrastructure"]
-- Must authenticate with: [Auth system, e.g., "Existing JWT token system"]
+- Use: [Existing tech, e.g., "PostgreSQL 15+ (system constraint)"]
+- Deploy via: [Infrastructure, e.g., "Existing Docker/ECS infrastructure"]
+- Authenticate with: [Auth system, e.g., "Existing JWT token system"]
 
 #### Compatibility Constraints
-- Must support: [Platforms/browsers, e.g., "Latest 2 versions of Chrome, Firefox, Safari"]
-- Must work with: [Existing data, e.g., "Existing user account schema"]
+- Support: [Platforms/browsers, e.g., "Latest 2 versions of Chrome, Firefox, Safari"]
+- Work with: [Existing data, e.g., "Existing user account schema"]
 
 #### Operational Constraints
-- Must adhere to: [Operational requirement, e.g., "Existing logging/monitoring patterns"]
-- Must respect: [Resource limits, e.g., "Database connection pool limits"]
+- Adhere to: [Operational requirement, e.g., "Existing logging/monitoring patterns"]
+- Respect: [Resource limits, e.g., "Database connection pool limits"]
 
 **Source Tracking**:
 - From system architecture (docs/system-architecture.md): [List constraints from existing architecture]
@@ -280,7 +280,7 @@ _Format: Use delta format (ADDED/MODIFIED/REMOVED) to clearly document what chan
 
 **[YYYY-MM-DD] ADDED: [Requirement Name]**
 
-[New requirement text using SHALL/MUST]
+[New requirement text describing expected behavior]
 
 **Rationale**: [Why this was added - business justification, user feedback, discovered need]
 
